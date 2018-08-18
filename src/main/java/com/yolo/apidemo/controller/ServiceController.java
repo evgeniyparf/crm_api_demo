@@ -11,28 +11,28 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+//@RequestMapping("/api")
 public class ServiceController {
     @Autowired
     private ServiceRepository serviceRepository;
 
-    @GetMapping("/service")
+    @GetMapping("/services")
     public List<Service> getAllServices(){
         return serviceRepository.findAll();
     }
 
-    @GetMapping("/service/{id}")
+    @GetMapping("/services/{id}")
     public Service getService(@PathVariable int id){
         return serviceRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Service " + id + " not found"));
     }
 
-    @PostMapping("/service")
+    @PostMapping("/services")
     public Service addService(@Valid @RequestBody Service service){
         return serviceRepository.save(service);
     }
 
-    @DeleteMapping("/service/{id}")
+    @DeleteMapping("/services/{id}")
     public ResponseEntity<?> deleteCustomer(@PathVariable int id){
         serviceRepository.delete(serviceRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(

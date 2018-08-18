@@ -11,29 +11,29 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+//@RequestMapping("/api")
 public class ServiceStatusController {
 
     @Autowired
     private ServiceStatusRepository serviceStatusRepository;
 
-    @GetMapping("/service_status")
+    @GetMapping("/service_statuses")
     public List<ServiceStatus> getAllServiceStatuses(){
         return serviceStatusRepository.findAll();
     }
 
-    @GetMapping("/service_status/{id}")
+    @GetMapping("/service_statuses/{id}")
     public ServiceStatus getServiceStatus(@PathVariable int id){
         return serviceStatusRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Service status " + id + " not found"));
     }
 
-    @PostMapping("/service_status")
+    @PostMapping("/service_statuses")
     public ServiceStatus addServiceStatus(@Valid @RequestBody ServiceStatus serviceStatus){
         return serviceStatusRepository.save(serviceStatus);
     }
 
-    @DeleteMapping("/service_status/{id}")
+    @DeleteMapping("/service_statuses/{id}")
     public ResponseEntity<?> deleteServiceStatus(@PathVariable int id){
         serviceStatusRepository.delete(serviceStatusRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(

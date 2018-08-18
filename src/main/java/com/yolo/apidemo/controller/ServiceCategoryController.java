@@ -11,28 +11,28 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+//@RequestMapping("/api")
 public class ServiceCategoryController {
     @Autowired
     private ServiceCategoryRepository serviceCategoryRepository;
 
-    @GetMapping("/service_category")
+    @GetMapping("/service_categories")
     public List<ServiceCategory> getAllServiceCategories(){
         return serviceCategoryRepository.findAll();
     }
 
-    @GetMapping("/service_category/{id}")
+    @GetMapping("/service_categories/{id}")
     public ServiceCategory getServiceCategory(@PathVariable int id){
         return serviceCategoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Service Category " + id + " not found"));
     }
 
-    @PostMapping("/service_category")
+    @PostMapping("/service_categories")
     public ServiceCategory newServiceCategory(@Valid @RequestBody ServiceCategory serviceCategory){
         return serviceCategoryRepository.save(serviceCategory);
     }
 
-    @DeleteMapping("/service_category/{id}")
+    @DeleteMapping("/service_categories/{id}")
     public ResponseEntity<?> deleteServiceCategory(@PathVariable int id){
         serviceCategoryRepository.delete(serviceCategoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Service Category " + id + "not found")));

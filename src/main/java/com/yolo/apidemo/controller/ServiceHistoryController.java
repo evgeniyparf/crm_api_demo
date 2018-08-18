@@ -12,28 +12,28 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+//@RequestMapping("/api")
 public class ServiceHistoryController {
     @Autowired
     private ServiceHistoryRepository serviceHistoryRepository;
 
-    @GetMapping("/service_history")
+    @GetMapping("/service_histories")
     public List<ServiceHistory> getAllServiceHistories(){
         return serviceHistoryRepository.findAll();
     }
 
-    @GetMapping("/service_history/{id}")
+    @GetMapping("/service_histories/{id}")
     public ServiceHistory getServiceHistory(@PathVariable int id){
         return serviceHistoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Service History " + id + " not found"));
     }
 
-    @PostMapping("/service_history")
+    @PostMapping("/service_histories")
     public ServiceHistory addServiceHistory(@Valid @RequestBody ServiceHistory serviceHistory){
         return serviceHistoryRepository.save(serviceHistory);
     }
 
-    @DeleteMapping("/service_history/{id}")
+    @DeleteMapping("/service_histories/{id}")
     public ResponseEntity<?> deleteServiceHistory(@PathVariable int id){
         serviceHistoryRepository.delete(serviceHistoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(

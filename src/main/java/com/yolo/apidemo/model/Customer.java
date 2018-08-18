@@ -101,4 +101,5 @@ public class Customer implements Serializable {
     public void setServiceHistories(Set<ServiceHistory> serviceHistories) {
         this.serviceHistories = serviceHistories;
     }
+
 }
