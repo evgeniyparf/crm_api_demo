@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "localhost:3000")
 @RequestMapping("/api")
 public class CustomerController {
 
