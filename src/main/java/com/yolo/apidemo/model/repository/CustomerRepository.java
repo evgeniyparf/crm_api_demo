@@ -14,4 +14,8 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     List<Customer> findByEmail(String email);
     List<Customer> findByPhone(String phone);
 
+    //сейчас начинается полный пиздец который и понимать то не обязательно
+    List<Customer> findByNameIgnoreCaseContainingAndSurnameIgnoreCaseContainingAndEmailAndPhone(String name, String surname, String email, String phone);
+    List<Customer> findByNameIgnoreCaseContainingOrSurnameIgnoreCaseContainingOrEmailOrPhone(String name, String surname, String email, String phone);
+
 }

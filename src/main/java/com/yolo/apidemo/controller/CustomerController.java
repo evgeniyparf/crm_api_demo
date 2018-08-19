@@ -3,6 +3,8 @@ package com.yolo.apidemo.controller;
 import com.yolo.apidemo.model.Customer;
 import com.yolo.apidemo.model.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +22,15 @@ public class CustomerController {
     private CustomerRepository customerRepository;
 
     @GetMapping("/customers")
-    public List<Customer> getAllCustomers() {
-            return customerRepository.findAll();
+    public List<Customer> getAllCustomers(@RequestParam(name = "name", required = false) String name,
+                                          @RequestParam(name = "surname", required = false) String surname,
+                                          @RequestParam(name = "email", required = false) String email,
+                                          @RequestParam(name = "phone", required = false) String phone)
+    {
+        
+        //return customerRepository.findByNameIgnoreCaseContainingOrSurnameIgnoreCaseContainingOrEmailOrPhone(name, surname, email, phone);
+        //return customerRepository.findByNameIgnoreCaseContainingAndSurnameIgnoreCaseContainingAndEmailAndPhone(name,surname,email,phone);
+                return customerRepository.findAll();
     }
 
     @GetMapping("/customers/fullname/{fullname}")
@@ -82,18 +91,10 @@ public class CustomerController {
         return HttpStatus.OK;
     }
 
-    @PatchMapping("/customers/{id}")
-    public Customer patchCustomer(@PathVariable int id, @Valid @RequestBody Customer customerDetails){
-        customerDetails.setId(id);
-        return customerRepository.save(customerDetails);
-    }
-
     @DeleteMapping("/customers/{id}")
     public ResponseEntity<?> deleteCustomer(@PathVariable int id){
         customerRepository.delete(customerRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer" + id + "not found")));
         return ResponseEntity.ok().build();
     }
-
-
 }
