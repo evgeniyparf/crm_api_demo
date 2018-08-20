@@ -3,7 +3,6 @@ package com.yolo.apidemo.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -12,20 +11,21 @@ public class Service {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     private String name;
 
     @Column(name = "initial_price")
-    private int initialPrice;
+    private Integer initialPrice;
 
-    private int price;
+    private Integer price;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
     private ServiceCategory serviceCategory;
 
-    private int time;
+    //time in seconds
+    private Integer time;
 
     @OneToMany(mappedBy = "service", cascade = CascadeType.ALL)
     private Set<ServiceHistory> serviceHistories;
@@ -41,7 +41,7 @@ public class Service {
         this.time = time;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -57,7 +57,7 @@ public class Service {
         this.name = name;
     }
 
-    public int getInitialPrice() {
+    public Integer getInitialPrice() {
         return initialPrice;
     }
 
@@ -65,7 +65,7 @@ public class Service {
         this.initialPrice = initialPrice;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
@@ -81,7 +81,7 @@ public class Service {
         this.serviceCategory = serviceCategory;
     }
 
-    public int getTime() {
+    public Integer getTime() {
         return time;
     }
 

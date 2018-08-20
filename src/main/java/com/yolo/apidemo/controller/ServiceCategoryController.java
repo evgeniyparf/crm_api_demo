@@ -17,8 +17,11 @@ public class ServiceCategoryController {
     private ServiceCategoryRepository serviceCategoryRepository;
 
     @GetMapping("/service_categories")
-    public List<ServiceCategory> getAllServiceCategories(){
-        return serviceCategoryRepository.findAll();
+    public List<ServiceCategory> getAllServiceCategories(@RequestParam(name = "name", required = false) String name){
+        if(name != null)
+            return serviceCategoryRepository.findByNameIgnoreCaseContaining(name);
+        else
+            return serviceCategoryRepository.findAll();
     }
 
     @GetMapping("/service_categories/{id}")
