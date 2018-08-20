@@ -18,8 +18,12 @@ public class ServiceStatusController {
     private ServiceStatusRepository serviceStatusRepository;
 
     @GetMapping("/service_statuses")
-    public List<ServiceStatus> getAllServiceStatuses(){
-        return serviceStatusRepository.findAll();
+    public List<ServiceStatus> getAllServiceStatuses(@PathVariable(name = "name", required = false) String name)
+    {
+        if(name != null)
+            return serviceStatusRepository.findByNameIgnoreCaseContaining(name);
+        else
+            return serviceStatusRepository.findAll();
     }
 
     @GetMapping("/service_statuses/{id}")

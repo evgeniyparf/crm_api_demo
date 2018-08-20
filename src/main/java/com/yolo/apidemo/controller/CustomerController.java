@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -25,7 +27,8 @@ public class CustomerController {
     public List<Customer> getAllCustomers(@RequestParam(name = "name", required = false) String name,
                                           @RequestParam(name = "surname", required = false) String surname,
                                           @RequestParam(name = "email", required = false) String email,
-                                          @RequestParam(name = "phone", required = false) String phone)
+                                          @RequestParam(name = "phone", required = false) String phone,
+                                          @RequestParam(name = "dob", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dob)
     {
         Customer customer = new Customer();
         if(name != null)
@@ -36,6 +39,9 @@ public class CustomerController {
             customer.setEmail(email);
         if(phone != null)
             customer.setPhone(phone);
+        if(dob != null)
+            customer.setDate_of_birth(dob);
+
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withIgnorePaths("id")
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
@@ -91,7 +97,6 @@ public class CustomerController {
             customer.setName(customerDetails.getName());
         if(customerDetails.getSurname() != null)
             customer.setSurname(customerDetails.getSurname());
-        //System.out.println(customerDetails.getDate_of_birth());
         if(customerDetails.getDate_of_birth() != null)
             customer.setDate_of_birth(customerDetails.getDate_of_birth());
         if(customerDetails.getPhone() != null)
