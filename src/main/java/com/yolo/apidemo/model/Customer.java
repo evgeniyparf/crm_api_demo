@@ -102,4 +102,16 @@ public class Customer implements Serializable {
         this.serviceHistories = serviceHistories;
     }
 
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", date_of_birth=" + date_of_birth +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", notes='" + notes + '\'' +
+                '}';
+    }
 }

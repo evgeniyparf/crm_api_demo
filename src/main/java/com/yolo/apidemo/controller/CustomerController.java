@@ -3,8 +3,8 @@ package com.yolo.apidemo.controller;
 import com.yolo.apidemo.model.Customer;
 import com.yolo.apidemo.model.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.domain.Specifications;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,10 +27,21 @@ public class CustomerController {
                                           @RequestParam(name = "email", required = false) String email,
                                           @RequestParam(name = "phone", required = false) String phone)
     {
-        
-        //return customerRepository.findByNameIgnoreCaseContainingOrSurnameIgnoreCaseContainingOrEmailOrPhone(name, surname, email, phone);
-        //return customerRepository.findByNameIgnoreCaseContainingAndSurnameIgnoreCaseContainingAndEmailAndPhone(name,surname,email,phone);
-                return customerRepository.findAll();
+        Customer customer = new Customer();
+        if(name != null)
+            customer.setName(name);
+        if(surname != null)
+            customer.setSurname(surname);
+        if(email != null)
+            customer.setEmail(email);
+        if(phone != null)
+            customer.setPhone(phone);
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withIgnorePaths("id")
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+                .withIgnoreCase();
+        Example<Customer> example = Example.of(customer, matcher);
+        return customerRepository.findAll(example);
     }
 
     @GetMapping("/customers/fullname/{fullname}")
