@@ -3,7 +3,6 @@ package com.yolo.apidemo.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -105,7 +104,7 @@ public class Service {
                 ", name='" + name + '\'' +
                 ", initialPrice=" + initialPrice +
                 ", price=" + price +
-                ", serviceCategory=" + serviceCategory +
+                //", serviceCategory=" + serviceCategory +
                 ", time=" + time +
                 '}';
     }

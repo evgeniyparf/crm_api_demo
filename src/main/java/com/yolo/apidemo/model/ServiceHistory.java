@@ -1,5 +1,7 @@
 package com.yolo.apidemo.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -8,7 +10,7 @@ import java.util.Date;
 public class ServiceHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "service_id")
@@ -23,6 +25,7 @@ public class ServiceHistory {
     private Date dateAdded;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "date")
     private Date dateProc;
 
@@ -40,11 +43,11 @@ public class ServiceHistory {
         this.serviceStatus = serviceStatus;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
