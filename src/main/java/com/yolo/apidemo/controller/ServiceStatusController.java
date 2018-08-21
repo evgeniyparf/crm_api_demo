@@ -4,6 +4,7 @@ import com.yolo.apidemo.model.ServiceStatus;
 import com.yolo.apidemo.model.repository.ServiceStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +32,16 @@ public class ServiceStatusController {
     public ServiceStatus getServiceStatus(@PathVariable int id){
         return serviceStatusRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Service status " + id + " not found"));
+    }
+
+    @PutMapping("/service_statuses/{id}")
+    public HttpStatus updateServiceStatus(@PathVariable int id, @Valid @RequestBody ServiceStatus serviceStatusDetails){
+        ServiceStatus serviceStatus = serviceStatusRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Service status " + id + " not found"));
+        if(serviceStatusDetails.getName() != null)
+            serviceStatus.setName(serviceStatusDetails.getName());
+        serviceStatusRepository.save(serviceStatus);
+        return HttpStatus.OK;
     }
 
     @PostMapping("/service_statuses")

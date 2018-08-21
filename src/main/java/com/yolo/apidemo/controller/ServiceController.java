@@ -9,6 +9,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -64,6 +65,22 @@ public class ServiceController {
     public Service getService(@PathVariable int id){
         return serviceRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Service " + id + " not found"));
+    }
+
+    @PutMapping("/services/{id}")
+    public HttpStatus updateService(@PathVariable int id, @Valid @RequestBody Service serviceDetails){
+        Service service = serviceRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Service " + id + " not found"));
+        if(serviceDetails.getName() != null)
+            service.setName(serviceDetails.getName());
+        if(serviceDetails.getInitialPrice() != null && serviceDetails.getInitialPrice() != 0)
+            service.setInitialPrice(serviceDetails.getInitialPrice());
+        if(serviceDetails.getPrice() != null && serviceDetails.getInitialPrice() != 0)
+            service.setPrice(serviceDetails.getPrice());
+        if(serviceDetails.getServiceCategory() != null)
+            service.setServiceCategory(serviceDetails.getServiceCategory());
+        serviceRepository.save(service);
+        return HttpStatus.OK;
     }
 
     @PostMapping("/services")
