@@ -11,6 +11,7 @@ import com.yolo.apidemo.model.repository.ServiceStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +36,9 @@ public class ServiceHistoryController {
     private ServiceStatusRepository serviceStatusRepository;
 
     @GetMapping("/service_histories")
-    public List<ServiceHistory> getAllServiceHistories(@RequestParam(name = "service", required = false) Integer service,
+    public List<ServiceHistory> getAllServiceHistories(@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+                                                       @RequestParam(name = "size", required = false, defaultValue = "20") Integer size,
+                                                       @RequestParam(name = "service", required = false) Integer service,
                                                        @RequestParam(name = "customer", required = false) Integer customer,
                                                        @RequestParam(name = "dateAdded", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dateAdded,
                                                        @RequestParam(name = "dateProc", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date dateProc,
@@ -73,7 +76,7 @@ public class ServiceHistoryController {
                 .withIgnoreNullValues()
                 .withIgnoreCase();
         Example<ServiceHistory> example = Example.of(serviceHistory, matcher);
-        return serviceHistoryRepository.findAll(example);
+        return serviceHistoryRepository.findAll(example, PageRequest.of(page, size)).getContent();
     }
 
     @GetMapping("/service_histories/{id}")

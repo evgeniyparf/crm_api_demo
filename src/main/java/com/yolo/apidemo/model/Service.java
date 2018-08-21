@@ -24,7 +24,6 @@ public class Service {
     @JoinColumn(name = "category_id")
     private ServiceCategory serviceCategory;
 
-    //time in seconds
     private Integer time;
 
     @OneToMany(mappedBy = "service", cascade = CascadeType.ALL)
@@ -45,7 +44,7 @@ public class Service {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -61,7 +60,7 @@ public class Service {
         return initialPrice;
     }
 
-    public void setInitialPrice(int initialPrice) {
+    public void setInitialPrice(Integer initialPrice) {
         this.initialPrice = initialPrice;
     }
 
@@ -69,7 +68,7 @@ public class Service {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
@@ -85,7 +84,7 @@ public class Service {
         return time;
     }
 
-    public void setTime(int time) {
+    public void setTime(Integer time) {
         this.time = time;
     }
 
