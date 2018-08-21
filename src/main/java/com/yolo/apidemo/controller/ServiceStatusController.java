@@ -23,7 +23,7 @@ public class ServiceStatusController {
                                                      @RequestParam(name = "size", required = false, defaultValue = "20") Integer size,
                                                      @RequestParam(name = "name", required = false) String name){
         if(name != null)
-            return serviceStatusRepository.findByNameIgnoreCaseContainig(name);
+            return serviceStatusRepository.findByNameIgnoreCaseContaining(name);
         else
             return serviceStatusRepository.findAll();
     }

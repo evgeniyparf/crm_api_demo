@@ -8,5 +8,5 @@ import java.util.List;
 
 @RepositoryRestResource(exported = false)
 public interface ServiceStatusRepository extends JpaRepository<ServiceStatus, Integer> {
-    List<ServiceStatus> findByNameIgnoreCaseContainig(String name);
+    List<ServiceStatus> findByNameIgnoreCaseContaining(String name);
 }
