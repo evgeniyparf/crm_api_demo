@@ -97,7 +97,6 @@ public class CustomerController {
             customer.setName(customerDetails.getName());
         if(customerDetails.getSurname() != null)
             customer.setSurname(customerDetails.getSurname());
-        //System.out.println(customerDetails.getDate_of_birth());
         if(customerDetails.getDate_of_birth() != null)
             customer.setDate_of_birth(customerDetails.getDate_of_birth());
         if(customerDetails.getPhone() != null)

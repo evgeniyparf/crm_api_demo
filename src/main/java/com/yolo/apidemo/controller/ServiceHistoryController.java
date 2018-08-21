@@ -14,6 +14,7 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -83,6 +84,24 @@ public class ServiceHistoryController {
     public ServiceHistory getServiceHistory(@PathVariable int id){
         return serviceHistoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Service History " + id + " not found"));
+    }
+
+    @PutMapping("/service_histories/{id}")
+    public HttpStatus updateServiceHistory(@PathVariable int id, @Valid @RequestBody ServiceHistory serviceHistoryDetails){
+        ServiceHistory serviceHistory = serviceHistoryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Service history " + id + " not found"));
+        if(serviceHistoryDetails.getService() != null)
+            serviceHistory.setService(serviceHistoryDetails.getService());
+        if(serviceHistoryDetails.getCustomer() != null)
+            serviceHistory.setCustomer(serviceHistoryDetails.getCustomer());
+        if(serviceHistoryDetails.getServiceStatus() != null)
+            serviceHistory.setServiceStatus(serviceHistoryDetails.getServiceStatus());
+        if(serviceHistoryDetails.getDateAdded() != null)
+            serviceHistory.setDateAdded(serviceHistoryDetails.getDateAdded());
+        if(serviceHistoryDetails.getDateProc() != null)
+            serviceHistory.setDateProc(serviceHistoryDetails.getDateProc());
+        serviceHistoryRepository.save(serviceHistory);
+        return HttpStatus.OK;
     }
 
     @PostMapping("/service_histories")

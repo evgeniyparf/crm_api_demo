@@ -5,6 +5,7 @@ import com.yolo.apidemo.model.repository.ServiceCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +32,16 @@ public class ServiceCategoryController {
     public ServiceCategory getServiceCategory(@PathVariable int id){
         return serviceCategoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Service Category " + id + " not found"));
+    }
+
+    @PutMapping("/service_categories/{id}")
+    public HttpStatus updateServiceCategory(@PathVariable int id, @Valid @RequestBody ServiceCategory serviceCategoryDetails){
+        ServiceCategory serviceCategory = serviceCategoryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Category " + id + " not found"));
+        if(serviceCategoryDetails.getName() != null)
+            serviceCategory.setName(serviceCategoryDetails.getName());
+        serviceCategoryRepository.save(serviceCategory);
+        return HttpStatus.OK;
     }
 
     @PostMapping("/service_categories")
