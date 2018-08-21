@@ -11,20 +11,20 @@ public class Service {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     private String name;
 
     @Column(name = "initial_price")
-    private int initialPrice;
+    private Integer initialPrice;
 
-    private int price;
+    private Integer price;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
     private ServiceCategory serviceCategory;
 
-    private int time;
+    private Integer time;
 
     @OneToMany(mappedBy = "service", cascade = CascadeType.ALL)
     private Set<ServiceHistory> serviceHistories;
@@ -40,11 +40,11 @@ public class Service {
         this.time = time;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -56,19 +56,19 @@ public class Service {
         this.name = name;
     }
 
-    public int getInitialPrice() {
+    public Integer getInitialPrice() {
         return initialPrice;
     }
 
-    public void setInitialPrice(int initialPrice) {
+    public void setInitialPrice(Integer initialPrice) {
         this.initialPrice = initialPrice;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
@@ -80,11 +80,11 @@ public class Service {
         this.serviceCategory = serviceCategory;
     }
 
-    public int getTime() {
+    public Integer getTime() {
         return time;
     }
 
-    public void setTime(int time) {
+    public void setTime(Integer time) {
         this.time = time;
     }
 

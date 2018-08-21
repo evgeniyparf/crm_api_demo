@@ -5,6 +5,7 @@ import com.yolo.apidemo.model.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +23,16 @@ public class CustomerController {
     private CustomerRepository customerRepository;
 
     @GetMapping("/customers")
-    public List<Customer> getAllCustomers(@RequestParam(name = "name", required = false) String name,
+    public List<Customer> getAllCustomers(//Pagination data
+                                          @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+                                          @RequestParam(name = "size", required = false, defaultValue = "20") Integer size,
+                                          //Customer Entity Data Fields
+                                          @RequestParam(name = "name", required = false) String name,
                                           @RequestParam(name = "surname", required = false) String surname,
                                           @RequestParam(name = "email", required = false) String email,
                                           @RequestParam(name = "phone", required = false) String phone)
     {
+
         Customer customer = new Customer();
         if(name != null)
             customer.setName(name);
@@ -41,7 +47,7 @@ public class CustomerController {
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
                 .withIgnoreCase();
         Example<Customer> example = Example.of(customer, matcher);
-        return customerRepository.findAll(example);
+        return customerRepository.findAll(example, PageRequest.of(page,size)).getContent();
     }
 
     @GetMapping("/customers/fullname/{fullname}")

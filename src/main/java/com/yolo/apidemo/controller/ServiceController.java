@@ -7,6 +7,7 @@ import com.yolo.apidemo.model.repository.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,9 @@ public class ServiceController {
     ServiceCategoryRepository serviceCategoryRepository;
 
     @GetMapping("/services")
-    public List<Service> getAllServices(@RequestParam(name = "name", required = false) String name,
+    public List<Service> getAllServices(@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+                                        @RequestParam(name = "size", required = false, defaultValue = "20") Integer size,
+                                        @RequestParam(name = "name", required = false) String name,
                                         @RequestParam(name = "category", required = false) Integer category,
                                         @RequestParam(name = "initialPrice", required = false) Integer initialPrice,
                                         @RequestParam(name = "price", required = false) Integer price,
@@ -44,7 +47,7 @@ public class ServiceController {
             service.setInitialPrice(initialPrice);
         if(price != null && price != 0)
             service.setPrice(price);
-        if(time != null && price != 0)
+        if(time != null && time !=0)
             service.setTime(time);
 
         ExampleMatcher matcher = ExampleMatcher.matching()
@@ -53,7 +56,8 @@ public class ServiceController {
                 .withIgnoreNullValues()
                 .withIgnoreCase();
         Example<Service> example = Example.of(service, matcher);
-        return serviceRepository.findAll(example);
+        System.out.println(example);
+        return serviceRepository.findAll(example, PageRequest.of(page, size)).getContent();
     }
 
     @GetMapping("/services/{id}")
