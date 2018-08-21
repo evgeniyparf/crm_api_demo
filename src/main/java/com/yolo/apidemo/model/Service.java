@@ -105,7 +105,7 @@ public class Service {
                 ", name='" + name + '\'' +
                 ", initialPrice=" + initialPrice +
                 ", price=" + price +
-                ", serviceCategory=" + serviceCategory +
+                //", serviceCategory=" + serviceCategory +
                 ", time=" + time +
                 '}';
     }

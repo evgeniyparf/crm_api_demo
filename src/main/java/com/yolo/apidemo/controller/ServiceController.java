@@ -1,6 +1,7 @@
 package com.yolo.apidemo.controller;
 
 import com.yolo.apidemo.model.Service;
+import com.yolo.apidemo.model.ServiceCategory;
 import com.yolo.apidemo.model.repository.ServiceCategoryRepository;
 import com.yolo.apidemo.model.repository.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 //@RequestMapping("/api")
@@ -23,7 +25,7 @@ public class ServiceController {
 
     @GetMapping("/services")
     public List<Service> getAllServices(@RequestParam(name = "name", required = false) String name,
-                                        @RequestParam(name = "categoryId", required = false) Integer categoryId,
+                                        @RequestParam(name = "category", required = false) Integer category,
                                         @RequestParam(name = "initialPrice", required = false) Integer initialPrice,
                                         @RequestParam(name = "price", required = false) Integer price,
                                         @RequestParam(name = "time", required = false) Integer time)
@@ -31,8 +33,13 @@ public class ServiceController {
         Service service = new Service();
         if(name != null)
             service.setName(name);
-        if(categoryId != null && categoryId != 0)
-            service.setServiceCategory(serviceCategoryRepository.findById(categoryId).get());
+        if(category != null){
+            Optional<ServiceCategory> dbServiceCategory = serviceCategoryRepository.findById(category);
+            if(dbServiceCategory.isPresent()){
+                ServiceCategory existingServiceCategory = dbServiceCategory.get();
+                service.setServiceCategory(existingServiceCategory);
+            }
+        }
         if(initialPrice != null && initialPrice != 0)
             service.setInitialPrice(initialPrice);
         if(price != null && price != 0)
@@ -40,14 +47,12 @@ public class ServiceController {
         if(time != null && price != 0)
             service.setTime(time);
 
-        System.out.println(service);
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withIgnorePaths("id")
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
                 .withIgnoreNullValues()
                 .withIgnoreCase();
         Example<Service> example = Example.of(service, matcher);
-        System.out.println(example);
         return serviceRepository.findAll(example);
     }
 
