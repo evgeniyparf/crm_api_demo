@@ -21,7 +21,7 @@ public class CustomerController {
                                           @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
                                           @RequestParam(name = "size", required = false, defaultValue = "20") Integer size,
                                           //Customer Entity Data Fields
-                                          @RequestParam(name = "name", required = false) String first_name,
+                                          @RequestParam(name = "first_name", required = false) String first_name,
                                           @RequestParam(name = "second_name", required = false) String second_name,
                                           @RequestParam(name = "third_name", required = false) String third_name,
                                           @RequestParam(name = "email", required = false) String email,
