@@ -8,11 +8,12 @@ import java.util.Set;
 @Entity
 @Table(name = "service_status")
 public class ServiceStatus {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "status_name")
-    private String name;
+    @Column(name = "title")
+    private String title;
 
     @OneToMany(mappedBy = "serviceStatus", cascade = CascadeType.ALL)
     private Set<ServiceHistory> serviceHistory;
@@ -22,7 +23,7 @@ public class ServiceStatus {
     }
 
     public ServiceStatus(String name, Set<ServiceHistory> serviceHistory) {
-        this.name = name;
+        this.title = name;
         this.serviceHistory = serviceHistory;
     }
 
@@ -34,12 +35,12 @@ public class ServiceStatus {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @JsonIgnore
@@ -55,7 +56,7 @@ public class ServiceStatus {
     public String toString() {
         return "ServiceStatus{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", title='" + title + '\'' +
                 ", serviceHistory=" + serviceHistory +
                 '}';
     }

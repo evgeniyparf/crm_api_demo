@@ -2,8 +2,8 @@ package com.yolo.apidemo.controller;
 
 import com.yolo.apidemo.model.Service;
 import com.yolo.apidemo.model.ServiceCategory;
-import com.yolo.apidemo.model.repository.ServiceCategoryRepository;
-import com.yolo.apidemo.model.repository.ServiceRepository;
+import com.yolo.apidemo.repository.ServiceCategoryRepository;
+import com.yolo.apidemo.repository.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -36,7 +36,7 @@ public class ServiceController {
     {
         Service service = new Service();
         if(name != null)
-            service.setName(name);
+            service.setTitle(name);
         if(category != null){
             Optional<ServiceCategory> dbServiceCategory = serviceCategoryRepository.findById(category);
             if(dbServiceCategory.isPresent()){
@@ -71,8 +71,8 @@ public class ServiceController {
     public HttpStatus updateService(@PathVariable int id, @Valid @RequestBody Service serviceDetails){
         Service service = serviceRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Service " + id + " not found"));
-        if(serviceDetails.getName() != null)
-            service.setName(serviceDetails.getName());
+        if(serviceDetails.getTitle() != null)
+            service.setTitle(serviceDetails.getTitle());
         if(serviceDetails.getInitialPrice() != null && serviceDetails.getInitialPrice() != 0)
             service.setInitialPrice(serviceDetails.getInitialPrice());
         if(serviceDetails.getPrice() != null && serviceDetails.getInitialPrice() != 0)

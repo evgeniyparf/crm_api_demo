@@ -1,7 +1,7 @@
 package com.yolo.apidemo.controller;
 
 import com.yolo.apidemo.model.ServiceCategory;
-import com.yolo.apidemo.model.repository.ServiceCategoryRepository;
+import com.yolo.apidemo.repository.ServiceCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -23,7 +23,7 @@ public class ServiceCategoryController {
                                                          @RequestParam(name = "size", required = false, defaultValue = "20") Integer size,
                                                          @RequestParam(name = "name", required = false) String name){
         if(name != null)
-            return serviceCategoryRepository.findByNameIgnoreCaseContaining(name);
+            return serviceCategoryRepository.findByTitleIgnoreCaseContaining(name);
         else
             return serviceCategoryRepository.findAll(PageRequest.of(page, size)).getContent();
     }
@@ -38,8 +38,8 @@ public class ServiceCategoryController {
     public HttpStatus updateServiceCategory(@PathVariable int id, @Valid @RequestBody ServiceCategory serviceCategoryDetails){
         ServiceCategory serviceCategory = serviceCategoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Category " + id + " not found"));
-        if(serviceCategoryDetails.getName() != null)
-            serviceCategory.setName(serviceCategoryDetails.getName());
+        if(serviceCategoryDetails.getTitle() != null)
+            serviceCategory.setTitle(serviceCategoryDetails.getTitle());
         serviceCategoryRepository.save(serviceCategory);
         return HttpStatus.OK;
     }

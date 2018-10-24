@@ -1,7 +1,7 @@
 package com.yolo.apidemo.controller;
 
 import com.yolo.apidemo.model.ServiceStatus;
-import com.yolo.apidemo.model.repository.ServiceStatusRepository;
+import com.yolo.apidemo.repository.ServiceStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ public class ServiceStatusController {
                                                      @RequestParam(name = "size", required = false, defaultValue = "20") Integer size,
                                                      @RequestParam(name = "name", required = false) String name){
         if(name != null)
-            return serviceStatusRepository.findByNameIgnoreCaseContainig(name);
+            return serviceStatusRepository.findByTitleIgnoreCaseContaining(name);
         else
             return serviceStatusRepository.findAll();
     }
@@ -38,8 +38,8 @@ public class ServiceStatusController {
     public HttpStatus updateServiceStatus(@PathVariable int id, @Valid @RequestBody ServiceStatus serviceStatusDetails){
         ServiceStatus serviceStatus = serviceStatusRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Service status " + id + " not found"));
-        if(serviceStatusDetails.getName() != null)
-            serviceStatus.setName(serviceStatusDetails.getName());
+        if(serviceStatusDetails.getTitle() != null)
+            serviceStatus.setTitle(serviceStatusDetails.getTitle());
         serviceStatusRepository.save(serviceStatus);
         return HttpStatus.OK;
     }

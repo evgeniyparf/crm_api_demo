@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "service_history")
+@Table(name = "service_histories")
 public class ServiceHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +17,7 @@ public class ServiceHistory {
     private Service service;
 
     @ManyToOne
-    @JoinColumn(name = "client_id")
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
     @Temporal(TemporalType.DATE)
@@ -30,7 +30,7 @@ public class ServiceHistory {
     private Date dateProc;
 
     @ManyToOne
-    @JoinColumn(name = "status")
+    @JoinColumn(name = "status_id")
     private ServiceStatus serviceStatus;
 
     public ServiceHistory(){}

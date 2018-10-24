@@ -6,12 +6,12 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "service_category")
+@Table(name = "service_categories")
 public class ServiceCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String name;
+    private String title;
     @OneToMany(mappedBy = "serviceCategory", cascade = CascadeType.ALL)
     private Set<Service> services;
 
@@ -20,7 +20,7 @@ public class ServiceCategory {
     }
 
     public ServiceCategory(String name) {
-        this.name = name;
+        this.title = name;
     }
 
     public int getId() {
@@ -31,12 +31,12 @@ public class ServiceCategory {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @JsonIgnore
@@ -52,7 +52,7 @@ public class ServiceCategory {
     public String toString() {
         return "ServiceCategory{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", title='" + title + '\'' +
                 ", services=" + services +
                 '}';
     }

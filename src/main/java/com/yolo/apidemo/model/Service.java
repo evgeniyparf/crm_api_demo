@@ -6,14 +6,14 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "service")
+@Table(name = "services")
 public class Service {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String name;
+    private String title;
 
     @Column(name = "initial_price")
     private Integer initialPrice;
@@ -33,7 +33,7 @@ public class Service {
     }
 
     public Service(String name, int initialPrice, int price, ServiceCategory serviceCategory, int time) {
-        this.name = name;
+        this.title = name;
         this.initialPrice = initialPrice;
         this.price = price;
         this.serviceCategory = serviceCategory;
@@ -48,12 +48,12 @@ public class Service {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Integer getInitialPrice() {
@@ -101,7 +101,7 @@ public class Service {
     public String toString() {
         return "Service{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", title='" + title + '\'' +
                 ", initialPrice=" + initialPrice +
                 ", price=" + price +
                 //", serviceCategory=" + serviceCategory +

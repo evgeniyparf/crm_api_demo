@@ -1,4 +1,4 @@
-package com.yolo.apidemo.model.repository;
+package com.yolo.apidemo.repository;
 
 import com.yolo.apidemo.model.ServiceStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,5 +8,5 @@ import java.util.List;
 
 @RepositoryRestResource(exported = false)
 public interface ServiceStatusRepository extends JpaRepository<ServiceStatus, Integer> {
-    List<ServiceStatus> findByNameIgnoreCaseContainig(String name);
+    List<ServiceStatus> findByTitleIgnoreCaseContaining(String title);
 }
