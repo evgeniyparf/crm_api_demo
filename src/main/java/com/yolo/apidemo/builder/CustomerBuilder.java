@@ -14,9 +14,7 @@ public class CustomerBuilder {
     private String email;
     private String notes;
 
-    public CustomerBuilder(String first_name, String phone) {
-        this.first_name = first_name;
-        this.phone = phone;
+    public CustomerBuilder() {
     }
 
     public CustomerBuilder setFirstName(String first_name) {
