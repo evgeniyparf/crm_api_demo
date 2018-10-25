@@ -22,15 +22,20 @@ public class DemoDataLoader implements ApplicationRunner {
     private ServiceCategoryRepository serviceCategoryRepository;
     private ServiceStatusRepository serviceStatusRepository;
     private ServiceHistoryRepository serviceHistoryRepository;
+    private StaffRepository staffRepository;
+    private StaffPositionRepository staffPositionRepository;
+    private StaffDepartmentRepository staffDepartmentRepository;
 
     @Autowired
-
-    public DemoDataLoader(CustomerRepository customerRepository, ServiceRepository serviceRepository, ServiceCategoryRepository serviceCategoryRepository, ServiceStatusRepository serviceStatusRepository, ServiceHistoryRepository serviceHistoryRepository) {
+    public DemoDataLoader(CustomerRepository customerRepository, ServiceRepository serviceRepository, ServiceCategoryRepository serviceCategoryRepository, ServiceStatusRepository serviceStatusRepository, ServiceHistoryRepository serviceHistoryRepository, StaffRepository staffRepository, StaffPositionRepository staffPositionRepository, StaffDepartmentRepository staffDepartmentRepository) {
         this.customerRepository = customerRepository;
         this.serviceRepository = serviceRepository;
         this.serviceCategoryRepository = serviceCategoryRepository;
         this.serviceStatusRepository = serviceStatusRepository;
         this.serviceHistoryRepository = serviceHistoryRepository;
+        this.staffRepository = staffRepository;
+        this.staffPositionRepository = staffPositionRepository;
+        this.staffDepartmentRepository = staffDepartmentRepository;
     }
 
     @Override
@@ -109,5 +114,36 @@ public class DemoDataLoader implements ApplicationRunner {
         serviceHistoryRepository.save(new ServiceHistory(servicesSet2, c2, new Date(),
                 new Calendar.Builder().setDate(2018, 10, 29).setTimeOfDay(12, 0, 0).build().getTime(),
                 st2));
+
+        StaffDepartment sd1 = new StaffDepartment("Department 1");
+        StaffDepartment sd2 = new StaffDepartment("Department 2");
+        StaffDepartment sd3 = new StaffDepartment("Department 3");
+        staffDepartmentRepository.save(sd1);
+        staffDepartmentRepository.save(sd2);
+        staffDepartmentRepository.save(sd3);
+
+        StaffPosition sp1 = new StaffPosition("Парикмахер", sd1);
+        StaffPosition sp2 = new StaffPosition("Менеджер", sd2);
+        StaffPosition sp3 = new StaffPosition("Начальник отдела продаж", sd3);
+
+        staffPositionRepository.save(sp1);
+        staffPositionRepository.save(sp2);
+        staffPositionRepository.save(sp3);
+
+        Staff staff1 = new Staff("Ivan", "Ivanov", "Ivanovich",
+                new Calendar.Builder().setDate(1998, 6, 6).build().getTime());
+        staff1.addStaffPosition(sp2);
+
+        Staff staff2 = new Staff("Olga", "Olgovich", "Olgovna",
+                new Calendar.Builder().setDate(1980, 3, 2).build().getTime());
+        staff2.addStaffPosition(sp1);
+
+        Staff staff3 = new Staff("Iosiff", "Stalin", "Visarionovich",
+                new Calendar.Builder().setDate(1896, 10, 3).build().getTime());
+        staff3.addStaffPosition(sp3);
+
+        staffRepository.save(staff1);
+        staffRepository.save(staff2);
+        staffRepository.save(staff3);
     }
 }

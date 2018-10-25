@@ -12,6 +12,7 @@ import java.util.List;
 
 @Service
 public class ServiceCategoryService {
+    
     @Autowired
     private ServiceCategoryRepository serviceCategoryRepository;
 
