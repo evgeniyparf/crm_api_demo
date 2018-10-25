@@ -1,6 +1,5 @@
 package com.yolo.apidemo.service;
 
-import com.yolo.apidemo.builder.ServiceBuilder;
 import com.yolo.apidemo.model.Service;
 import com.yolo.apidemo.model.ServiceCategory;
 import com.yolo.apidemo.repository.ServiceCategoryRepository;
@@ -26,19 +25,19 @@ public class ServiceService {
     To do:
         - Добавить исключение если категории не существует
      */
-    public List<Service> getAllServices(int page, int size, String title, Integer category, Integer initialPrice, Integer price, Integer time) {
-        Example<Service> example = findServiceByExample(title, category, initialPrice, price, time);
+    public List<com.yolo.apidemo.model.Service> getAllServices(int page, int size, String title, Integer category, Integer initialPrice, Integer price, Integer time) {
+        Example<com.yolo.apidemo.model.Service> example = findServiceByExample(title, category, initialPrice, price, time);
         return serviceRepository.findAll(example, PageRequest.of(page, size)).getContent();
     }
 
-    public Service getService(int id) {
+    public com.yolo.apidemo.model.Service getService(int id) {
         return serviceRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Service " + id + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("ServiceBuilder " + id + " not found"));
     }
 
-    public Service updateService(int id, Service serviceNewInfo) {
-        Service service = serviceRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Service " + id + " not found"));
+    public com.yolo.apidemo.model.Service updateService(int id, com.yolo.apidemo.model.Service serviceNewInfo) {
+        com.yolo.apidemo.model.Service service = serviceRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("ServiceBuilder " + id + " not found"));
         if(serviceNewInfo.getTitle() != null)
             service.setTitle(serviceNewInfo.getTitle());
         if(serviceNewInfo.getInitialPrice() != null && serviceNewInfo.getInitialPrice() != 0)
@@ -51,37 +50,37 @@ public class ServiceService {
         return service;
     }
 
-    public Service addService(Service service) {
+    public com.yolo.apidemo.model.Service addService(com.yolo.apidemo.model.Service service) {
         return serviceRepository.save(service);
     }
 
     public HttpStatus deleteService(int id) {
         serviceRepository.delete(serviceRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        "Service " + id + " not found")));
+                        "ServiceBuilder " + id + " not found")));
         return HttpStatus.NO_CONTENT;
     }
 
     private Example findServiceByExample(String title, Integer category, Integer initialPrice, Integer price, Integer time) {
-        ServiceBuilder serviceBuilder = new ServiceBuilder();
+        Service service = new Service();
         if(title != null)
-            serviceBuilder.setTitle(title);
+            service.setTitle(title);
         if(initialPrice != null)
-            serviceBuilder.setInitialPrice(initialPrice);
+            service.setInitialPrice(initialPrice);
         if(price != null && time != 0)
-            serviceBuilder.setPrice(price);
+            service.setPrice(price);
         if(time != null && time != 0)
-            serviceBuilder.setTime(time);
+            service.setTime(time);
         if(category != null) {
             Optional<ServiceCategory> serviceCategoryOptional = serviceCategoryRepository.findById(category);
             if(serviceCategoryOptional.isPresent())
-                serviceBuilder.setServiceCategory(serviceCategoryOptional.get());
+                service.setServiceCategory(serviceCategoryOptional.get());
         }
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withIgnorePaths("id")
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
                 .withIgnoreNullValues()
                 .withIgnoreCase();
-        return Example.of(serviceBuilder.build(), matcher);
+        return Example.of(service, matcher);
     }
 }
