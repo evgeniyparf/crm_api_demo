@@ -57,7 +57,7 @@ public class CustomerService {
         return HttpStatus.NO_CONTENT;
     }
 
-    public Example findCustomersByExample(String first_name, String second_name, String third_name, String email, String phone) {
+    private Example findCustomersByExample(String first_name, String second_name, String third_name, String email, String phone) {
         Customer customer = new Customer();
         if(first_name != null) customer.setFirst_name(first_name);
         if(second_name != null) customer.setSecond_name(second_name);
