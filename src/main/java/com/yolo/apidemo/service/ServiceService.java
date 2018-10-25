@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import java.util.List;
 import java.util.Optional;
 
+@org.springframework.stereotype.Service
 public class ServiceService {
     @Autowired
     private ServiceRepository serviceRepository;
