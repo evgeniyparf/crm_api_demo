@@ -14,7 +14,7 @@ import java.util.List;
 public class CustomerController {
 
     @Autowired
-    CustomerService customerService;
+    private CustomerService customerService;
 
     @GetMapping("/customers")
     public List<Customer> getAllCustomers(//Pagination data

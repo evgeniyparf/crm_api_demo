@@ -31,13 +31,13 @@ public class ServiceStatusController {
     @GetMapping("/service_statuses/{id}")
     public ServiceStatus getServiceStatus(@PathVariable int id){
         return serviceStatusRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Service status " + id + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("ServiceBuilder status " + id + " not found"));
     }
 
     @PutMapping("/service_statuses/{id}")
     public HttpStatus updateServiceStatus(@PathVariable int id, @Valid @RequestBody ServiceStatus serviceStatusDetails){
         ServiceStatus serviceStatus = serviceStatusRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Service status " + id + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("ServiceBuilder status " + id + " not found"));
         if(serviceStatusDetails.getTitle() != null)
             serviceStatus.setTitle(serviceStatusDetails.getTitle());
         serviceStatusRepository.save(serviceStatus);
@@ -53,7 +53,7 @@ public class ServiceStatusController {
     public ResponseEntity<?> deleteServiceStatus(@PathVariable int id){
         serviceStatusRepository.delete(serviceStatusRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        "Service status " + id + " not found")));
+                        "ServiceBuilder status " + id + " not found")));
         return ResponseEntity.ok().build();
     }
 }

@@ -26,7 +26,7 @@ public class Service {
 
     private Integer time;
 
-    @OneToMany(mappedBy = "service", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "services", cascade = CascadeType.ALL)
     private Set<ServiceHistory> serviceHistories;
 
     public Service() {
@@ -99,7 +99,7 @@ public class Service {
 
     @Override
     public String toString() {
-        return "Service{" +
+        return "ServiceBuilder{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", initialPrice=" + initialPrice +

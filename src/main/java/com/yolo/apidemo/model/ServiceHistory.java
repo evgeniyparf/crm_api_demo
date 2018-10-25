@@ -4,6 +4,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "service_histories")
@@ -12,9 +14,11 @@ public class ServiceHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "service_id")
-    private Service service;
+    @ManyToMany
+    @JoinTable(name = "history_service",
+                joinColumns = { @JoinColumn (name = "history_id")},
+                inverseJoinColumns = { @JoinColumn (name = "service_id")})
+    private Set<Service> services = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
@@ -35,8 +39,14 @@ public class ServiceHistory {
 
     public ServiceHistory(){}
 
-    public ServiceHistory(Service service, Customer customer, Date dateAdded, Date dateProc, ServiceStatus serviceStatus) {
-        this.service = service;
+    public ServiceHistory(Customer customer, Date dateAdded, Date dateProc){
+        this.customer = customer;
+        this.dateAdded = dateAdded;
+        this.dateProc = dateProc;
+    }
+
+    public ServiceHistory(Set<Service> services, Customer customer, Date dateAdded, Date dateProc, ServiceStatus serviceStatus) {
+        this.services = services;
         this.customer = customer;
         this.dateAdded = dateAdded;
         this.dateProc = dateProc;
@@ -51,12 +61,16 @@ public class ServiceHistory {
         this.id = id;
     }
 
-    public Service getService() {
-        return service;
+    public Set<Service> getService() {
+        return services;
     }
 
-    public void setService(Service service) {
-        this.service = service;
+    public void setService(Set<Service> services) {
+        this.services = services;
+    }
+
+    public void addService(Service service) {
+        services.add(service);
     }
 
     public Customer getCustomer() {
@@ -95,7 +109,7 @@ public class ServiceHistory {
     public String toString() {
         return "ServiceHistory{" +
                 "id=" + id +
-                ", service=" + service +
+                ", service=" + services +
                 ", customer=" + customer +
                 ", dateAdded=" + dateAdded +
                 ", dateProc=" + dateProc +

@@ -22,8 +22,12 @@ public class ServiceStatus {
 
     }
 
-    public ServiceStatus(String name, Set<ServiceHistory> serviceHistory) {
-        this.title = name;
+    public ServiceStatus(String title){
+        this.title = title;
+    }
+
+    public ServiceStatus(String title, Set<ServiceHistory> serviceHistory) {
+        this.title = title;
         this.serviceHistory = serviceHistory;
     }
 

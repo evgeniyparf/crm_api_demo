@@ -1,6 +1,5 @@
 package com.yolo.apidemo.builder;
 
-import com.yolo.apidemo.model.Service;
 import com.yolo.apidemo.model.ServiceCategory;
 
 public class ServiceBuilder {
@@ -59,7 +58,7 @@ public class ServiceBuilder {
         return this;
     }
 
-    public Service build() {
-        return new Service(title, initialPrice, price, serviceCategory, time);
+    public com.yolo.apidemo.model.Service build() {
+        return new com.yolo.apidemo.model.Service(title, initialPrice, price, serviceCategory, time);
     }
 }

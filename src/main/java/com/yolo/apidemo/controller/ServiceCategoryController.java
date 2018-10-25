@@ -31,7 +31,7 @@ public class ServiceCategoryController {
     @GetMapping("/service_categories/{id}")
     public ServiceCategory getServiceCategory(@PathVariable int id){
         return serviceCategoryRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Service Category " + id + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("ServiceBuilder Category " + id + " not found"));
     }
 
     @PutMapping("/service_categories/{id}")
@@ -52,7 +52,7 @@ public class ServiceCategoryController {
     @DeleteMapping("/service_categories/{id}")
     public ResponseEntity<?> deleteServiceCategory(@PathVariable int id){
         serviceCategoryRepository.delete(serviceCategoryRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Service Category " + id + "not found")));
+                .orElseThrow(() -> new ResourceNotFoundException("ServiceBuilder Category " + id + "not found")));
         return ResponseEntity.ok().build();
     }
 }

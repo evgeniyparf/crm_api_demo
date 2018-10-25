@@ -50,7 +50,7 @@ public class ServiceHistoryController {
             Optional<Service> dbServiceCategory = serviceRepository.findById(service);
             if(dbServiceCategory.isPresent()) {
                 Service existingServiceCategory = dbServiceCategory.get();
-                serviceHistory.setService(existingServiceCategory);
+                serviceHistory.addService(existingServiceCategory);
             }
         }
         if(customer != null){
@@ -83,13 +83,13 @@ public class ServiceHistoryController {
     @GetMapping("/service_histories/{id}")
     public ServiceHistory getServiceHistory(@PathVariable int id){
         return serviceHistoryRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Service History " + id + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("ServiceBuilder History " + id + " not found"));
     }
 
     @PutMapping("/service_histories/{id}")
     public HttpStatus updateServiceHistory(@PathVariable int id, @Valid @RequestBody ServiceHistory serviceHistoryDetails){
         ServiceHistory serviceHistory = serviceHistoryRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Service history " + id + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("ServiceBuilder history " + id + " not found"));
         if(serviceHistoryDetails.getService() != null)
             serviceHistory.setService(serviceHistoryDetails.getService());
         if(serviceHistoryDetails.getCustomer() != null)
@@ -113,7 +113,7 @@ public class ServiceHistoryController {
     public ResponseEntity<?> deleteServiceHistory(@PathVariable int id){
         serviceHistoryRepository.delete(serviceHistoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        "Service history " + id + " not found")));
+                        "ServiceBuilder history " + id + " not found")));
         return ResponseEntity.ok().build();
     }
 }
